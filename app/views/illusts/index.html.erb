@@ -1,0 +1,33 @@
+<%= page_entries_info @illusts %>
+<div class="illusts-container">
+  <h3>illust一覧</h3>
+  <h3>投稿を検索</h3>
+  <%= form_tag({controller:"illusts",action:"index"}, method: :get) do %>
+    <%= text_field_tag :search, params[:search] %>
+    <%= link_to "新規投稿へ", new_illust_path %>
+    <%= link_to "みんなのお題箱", subjects_path %>
+    <%= submit_tag '検索する' %>
+  <% end %>
+  
+  
+  <% @illusts.each do |t| %>
+
+    <div class="illust">
+      <div class="main-box">
+        <div class="left-container">
+     
+          <%= t.body %>
+          <%= image_tag t.image_url, size: "250x200" if t.image? %>
+        </div>
+        <div class="right-container">
+          <%= link_to "詳細", illust_path(t.id) %>
+          <%= link_to "編集", edit_illust_path(t.id) %>
+          <%= button_to "削除", illust_path(t.id), method: :delete %>
+        </div>
+      </div>
+        <p class="time"><%= t.created_at %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= paginate @illusts %>

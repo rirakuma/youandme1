@@ -1,0 +1,17 @@
+<h3>subject詳細</h3>
+Comment<div class="subject">
+  <p><%= @subject.body %></p>
+  <p><%= @subject.created_at %></p>
+</div>
+
+<% @subject.tags.each do |tag| %>
+  <span><%= tag.name %></span>
+<% end %>
+
+<%= link_to "編集する", edit_subject_path(@subject.id) %>
+<%= link_to "subject一覧に戻る", subjects_path %>
+
+
+#追記ここまで
+
+<%= link_to "Subject一覧に戻る", subjects_path %>

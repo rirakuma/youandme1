@@ -1,0 +1,10 @@
+<h3>illust詳細</h3>
+<div class="illust">
+  <p><%= @illust.body %></p>
+  <p><%= @illust.created_at %></p>
+</div>
+
+
+<%= link_to "編集する", edit_illust_path(@illust.id) %>
+<%= link_to "illust一覧に戻る", illusts_path %>
+

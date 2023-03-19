@@ -1,0 +1,85 @@
+<%= stylesheet_link_tag 'index', :media => "all" %>
+
+<h3>subject一覧</h3>
+<%= link_to "新規投稿へ", new_subject_path %>
+<%= link_to "イラストページへ", illusts_path %>
+
+<% if user_signed_in? %>
+  <%= link_to "マイページへ", user_path(current_user.id) %>
+
+<% end %>
+<h3>投稿を検索</h3>
+ <%= form_tag({controller:"subjects",action:"index"}, method: :get) do %>
+   <%= text_field_tag :search %>
+   <%= submit_tag '検索する'  %>
+  <% end %>
+
+<%= form_tag({controller:"subjects",action:"index"}, method: :get) do %>
+  <% Tag.all.each do |t| %>
+      <li><%= check_box :tag_ids, t.name %><%= t.name %></li>
+  <% end %>
+  <%= submit_tag 'タグ検索' %>
+<% end %>
+
+
+
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>
+<%= page_entries_info @subjects %>
+
+<div class="tabs">
+  <input id="all" type="radio" name="tab_item" checked>
+  <label class="tab_item" for="all">総合</label>
+  <input id="programming" type="radio" name="tab_item">
+  <label class="tab_item" for="programming">プログラミング</label>
+  <input id="design" type="radio" name="tab_item">
+  <label class="tab_item" for="design">デザイン</label>
+  <div class="tab_content" id="all_content">
+    <div class="tab_content_description">
+      <p class="c-txtsp">総合の内容がここに入ります</p>
+    </div>
+  </div>
+
+  <div class="tab_content" id="programming_content">
+    <div class="tab_content_description">
+      <p class="c-txtsp"><div class="subjects-container">
+      <% @subjects.each do |t| %>
+        <div class="subject">
+          <%= t.body %>
+          <%= t.created_at %>
+        </div>
+      <% end %>
+    </div>
+    </p>
+    </div>
+  </div>
+</div>
+
+<div class="subjects-container">
+  <% @subjects.each do |t| %>
+    <%= page_entries_info @subjects %>
+    <div class="subject">
+    <div class="main-box">
+      <div class="left-container">
+        <%= t.user.email %>
+        <%= t.body %>
+      </div>
+      <div class="right-container">
+        <%= link_to "詳細", subject_path(t.id) %>
+        <% if user_signed_in? && current_user.id == t.user_id %>
+      <%= link_to "編集する", edit_subject_path(t.id) %>
+      <%= button_to "削除する", subject_path(t.id), method: :delete %>
+      
+        <%= form_tag({controller:"subjects",action:"index"}, method: :get) do %>
+          <%= text_field_tag :tag %>
+          <%= submit_tag 'タグを追加' %>
+        <% end %>
+      <% end %> 
+      </div>
+    </div>
+      <p class="time"><%= t.created_at %></p>
+  </div>
+  <% end %>
+</div>
+
+</div>
+<%= paginate @subjects %>
