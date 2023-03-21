@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     if current_user.admin == false
       redirect_to root_path
     else
-      render action: "index"
+       action: "index"
     end
   end
 end
