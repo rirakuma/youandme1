@@ -1,4 +1,4 @@
-# fly.toml file generated for youandme on 2023-03-18T20:54:22+09:00
+# fly.toml file generated for youandme on 2023-03-21T20:34:11+09:00
 
 app = "youandme"
 kill_signal = "SIGINT"
@@ -7,15 +7,16 @@ processes = []
 
 [env]
   PORT = "8080"
+
 [experimental]
   auto_rollback = true
   [experimental.healthchecks]
-    type = "http"
-    path = "/health-check"
-    timeout = "3s"
+    fails = 3
     interval = "10s"
     passes = 2
-    fails = 3
+    path = "/health-check"
+    timeout = "3s"
+    type = "http"
 
 [[services]]
   http_checks = []
